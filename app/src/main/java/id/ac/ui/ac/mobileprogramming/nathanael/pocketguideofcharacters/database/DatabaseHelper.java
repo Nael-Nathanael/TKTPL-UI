@@ -22,8 +22,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public DatabaseHelper(Context context, Boolean isRunOnTestMode) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         if (isRunOnTestMode) {
+            String sql2 = "CREATE TABLE IF NOT EXISTS characters_test (id integer primary key, name text null, age integer null)";
+            this.getWritableDatabase().execSQL(sql2);
             CHARACTER_TABLE = "characters_test";
-            onCreate(this.getWritableDatabase());
         }
     }
 
@@ -35,7 +36,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
     }
 
     public void createCharacter(String name, String age) {
@@ -51,13 +51,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         );
     }
 
-    public void destroyTable() {
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        db.execSQL(String.format("DROP TABLE %s", CHARACTER_TABLE));
-    }
-
-    public List<TheCharacter> getAllBiodata() {
+    public List<TheCharacter> getAllCharacters() {
         List<TheCharacter> characters = new ArrayList<>();
 
         SQLiteDatabase db = this.getWritableDatabase();

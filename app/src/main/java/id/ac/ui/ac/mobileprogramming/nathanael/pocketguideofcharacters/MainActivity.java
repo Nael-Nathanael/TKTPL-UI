@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void refreshList() {
-        List<TheCharacter> characters = databaseHelper.getAllBiodata();
+        List<TheCharacter> characters = databaseHelper.getAllCharacters();
 
         RecyclerView recyclerView = findViewById(R.id.recyclerViewCard);
 
