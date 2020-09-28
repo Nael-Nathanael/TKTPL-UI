@@ -5,11 +5,17 @@ import android.os.Bundle;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.List;
+
 import id.ac.ui.ac.mobileprogramming.nathanael.pocketguideofcharacters.activities.CreateCharacterActivity;
+import id.ac.ui.ac.mobileprogramming.nathanael.pocketguideofcharacters.adapter.LandingRecyclerViewAdapter;
 import id.ac.ui.ac.mobileprogramming.nathanael.pocketguideofcharacters.database.DatabaseHelper;
+import id.ac.ui.ac.mobileprogramming.nathanael.pocketguideofcharacters.layout_managers.GridAutofitLayoutManager;
+import id.ac.ui.ac.mobileprogramming.nathanael.pocketguideofcharacters.models.TheCharacter;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -30,5 +36,24 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        refreshList();
+    }
+
+    public void refreshList() {
+        List<TheCharacter> characters = databaseHelper.getAllBiodata();
+
+        RecyclerView recyclerView = findViewById(R.id.recyclerViewCard);
+
+        LandingRecyclerViewAdapter viewAdapter = new LandingRecyclerViewAdapter(this, characters);
+        recyclerView.setAdapter(viewAdapter);
+        recyclerView.setLayoutManager(
+                new GridAutofitLayoutManager(this, 144)
+        );
     }
 }

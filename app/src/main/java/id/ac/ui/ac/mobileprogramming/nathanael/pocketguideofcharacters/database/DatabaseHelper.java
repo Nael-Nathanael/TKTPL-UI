@@ -12,8 +12,8 @@ import id.ac.ui.ac.mobileprogramming.nathanael.pocketguideofcharacters.models.Th
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "pocketguideofcharacters.db";
-    private static String CHARACTER_TABLE = "characters";
     private static final int DATABASE_VERSION = 1;
+    private static String CHARACTER_TABLE = "characters";
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -88,8 +88,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         this.getWritableDatabase().delete(CHARACTER_TABLE, null, null);
     }
 
-    public void deleteBio(TheCharacter character) {
+    public void deleteCharacter(TheCharacter character) {
         String id = character.getId();
         this.getWritableDatabase().delete(CHARACTER_TABLE, String.format("id = %s", id), null);
+    }
+
+    public void deleteCharacterById(String id) {
+        this.getWritableDatabase().delete(CHARACTER_TABLE, String.format("id = %s", id), null);
+    }
+
+    public void updateCharacter(String originId, String name, String age) {
+        this.getWritableDatabase().execSQL(
+                String.format(
+                        "UPDATE characters SET name = '%s', age = '%s' WHERE id = '%s';",
+                        name,
+                        age,
+                        originId
+                )
+        );
     }
 }

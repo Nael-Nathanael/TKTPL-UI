@@ -32,8 +32,10 @@ public class CreateCharacterActivity extends AppCompatActivity {
                 String name = nameField.getText().toString();
                 String age = ageField.getText().toString();
 
-                databaseHelper.createCharacter(name, age);
-                finish();
+                if (!name.isEmpty() && !age.isEmpty()) {
+                    databaseHelper.createCharacter(name, age);
+                    finish();
+                }
             }
         });
     }
