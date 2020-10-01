@@ -45,7 +45,6 @@ public class LandingRecyclerViewAdapter extends RecyclerView.Adapter<LandingCard
         holder.the_card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("NaelTest", "clicked " + characterList.get(position).getName());
                 Intent intent = new Intent(context, ViewCharacterActivity.class);
                 intent.putExtra("id", characterList.get(position).getId());
                 context.startActivity(intent);

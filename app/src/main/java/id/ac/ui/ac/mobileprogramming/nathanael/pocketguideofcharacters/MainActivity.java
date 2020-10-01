@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
-        int SPLASH_SCREEN_TIME_OUT = 3000;
+        int SPLASH_SCREEN_TIME_OUT = 1000;
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {

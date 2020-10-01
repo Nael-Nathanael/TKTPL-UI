@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.Objects;
 
 import id.ac.ui.ac.mobileprogramming.nathanael.pocketguideofcharacters.R;
+import id.ac.ui.ac.mobileprogramming.nathanael.pocketguideofcharacters.activities.fragment.DeletionDialog;
 import id.ac.ui.ac.mobileprogramming.nathanael.pocketguideofcharacters.database.DatabaseHelper;
 
 public class ViewCharacterActivity extends AppCompatActivity {
@@ -30,6 +31,46 @@ public class ViewCharacterActivity extends AppCompatActivity {
 
         id = getIntent().getStringExtra("id");
 
+        Button editButton = findViewById(R.id.editButton);
+        editButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getApplicationContext(), UpdateCharacterActivity.class);
+                i.putExtra("id", ViewCharacterActivity.this.id);
+                startActivity(i);
+            }
+        });
+
+        Button deleteButton = findViewById(R.id.deleteButton);
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openDeleteConfirmationDialog();
+            }
+        });
+    }
+
+    private void openDeleteConfirmationDialog() {
+        DeletionDialog confirmationDialog = new DeletionDialog(ViewCharacterActivity.this, ViewCharacterActivity.this.id);
+        confirmationDialog.show(getSupportFragmentManager(), "Deletion dialogue");
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        refreshData();
+    }
+
+    private void refreshData() {
         SQLiteDatabase db = databaseHelper.getReadableDatabase();
         final Cursor cursor = db.rawQuery(String.format("SELECT * FROM characters WHERE id = '%s'", id), null);
         cursor.moveToFirst();
@@ -46,33 +87,7 @@ public class ViewCharacterActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        Button editButton = findViewById(R.id.editButton);
-        editButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(), UpdateCharacterActivity.class);
-                i.putExtra("id", ViewCharacterActivity.this.id);
-                startActivity(i);
-            }
-        });
-
-        Button deleteButton = findViewById(R.id.deleteButton);
-        deleteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                databaseHelper.deleteCharacterById(ViewCharacterActivity.this.id);
-                finish();
-            }
-        });
-
         cursor.close();
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            finish();
-        }
-        return super.onOptionsItemSelected(item);
-    }
 }

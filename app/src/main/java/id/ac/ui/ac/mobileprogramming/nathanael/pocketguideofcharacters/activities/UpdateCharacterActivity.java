@@ -3,6 +3,7 @@ package id.ac.ui.ac.mobileprogramming.nathanael.pocketguideofcharacters.activiti
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -13,12 +14,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.Objects;
 
 import id.ac.ui.ac.mobileprogramming.nathanael.pocketguideofcharacters.R;
+import id.ac.ui.ac.mobileprogramming.nathanael.pocketguideofcharacters.activities.fragment.ConfirmationDialog;
 import id.ac.ui.ac.mobileprogramming.nathanael.pocketguideofcharacters.database.DatabaseHelper;
 
 public class UpdateCharacterActivity extends AppCompatActivity {
 
     DatabaseHelper databaseHelper;
     String originId;
+    String originName;
+    String originAge;
+    TextView nameField;
+    TextView ageField;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,12 +45,13 @@ public class UpdateCharacterActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        TextView target = findViewById(R.id.nameFieldUpdate);
-        target.setText(cursor.getString(1));
+        nameField = findViewById(R.id.nameFieldUpdate);
+        originName = cursor.getString(1);
+        nameField.setText(originName);
 
-        target = findViewById(R.id.ageFieldUpdate);
-        target.setText(cursor.getString(2));
-
+        ageField = findViewById(R.id.ageFieldUpdate);
+        originAge = cursor.getString(2);
+        ageField.setText(originAge);
 
         Button updateButton = findViewById(R.id.updateButton);
         updateButton.setOnClickListener(new View.OnClickListener() {
@@ -52,9 +59,7 @@ public class UpdateCharacterActivity extends AppCompatActivity {
             public void onClick(View v) {
                 SQLiteDatabase db = databaseHelper.getWritableDatabase();
 
-                TextView nameField = findViewById(R.id.nameFieldUpdate);
                 String name = nameField.getText().toString();
-                TextView ageField = findViewById(R.id.ageFieldUpdate);
                 String age = ageField.getText().toString();
 
                 if (!name.isEmpty() && !age.isEmpty()) {
@@ -74,5 +79,26 @@ public class UpdateCharacterActivity extends AppCompatActivity {
             finish();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            String name = String.valueOf(nameField.getText());
+            String age = String.valueOf(ageField.getText());
+            if (!name.equals(originName) || !age.equals(originAge)) {
+                openBackConfirmationDialog();
+                return false;
+            } else {
+                finish();
+                return true;
+            }
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    private void openBackConfirmationDialog() {
+        ConfirmationDialog confirmationDialog = new ConfirmationDialog(UpdateCharacterActivity.this);
+        confirmationDialog.show(getSupportFragmentManager(), "Form cancelation dialogue");
     }
 }
