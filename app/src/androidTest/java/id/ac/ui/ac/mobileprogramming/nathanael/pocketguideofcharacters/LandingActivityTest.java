@@ -17,6 +17,7 @@ import org.junit.runner.RunWith;
 import java.util.Collection;
 
 import id.ac.ui.ac.mobileprogramming.nathanael.pocketguideofcharacters.activities.CreateCharacterActivity;
+import id.ac.ui.ac.mobileprogramming.nathanael.pocketguideofcharacters.activities.LandingActivity;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -27,10 +28,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 @RunWith(AndroidJUnit4.class)
-public class MainActivityTest {
+public class LandingActivityTest {
 
     @Rule
-    public ActivityScenarioRule<MainActivity> activityScenarioRule = new ActivityScenarioRule<>(MainActivity.class);
+    public ActivityScenarioRule<LandingActivity> activityScenarioRule = new ActivityScenarioRule<>(LandingActivity.class);
 
     @Test
     public void useAppContext() {
@@ -41,9 +42,9 @@ public class MainActivityTest {
 
     @Test
     public void whenLaunchedShouldShowRecyclerViewLayout() {
-        activityScenarioRule.getScenario().onActivity(new ActivityScenario.ActivityAction<MainActivity>() {
+        activityScenarioRule.getScenario().onActivity(new ActivityScenario.ActivityAction<LandingActivity>() {
             @Override
-            public void perform(MainActivity activity) {
+            public void perform(LandingActivity activity) {
                 View view = activity.findViewById(R.id.recyclerViewCard);
                 assertNotNull(view);
             }
