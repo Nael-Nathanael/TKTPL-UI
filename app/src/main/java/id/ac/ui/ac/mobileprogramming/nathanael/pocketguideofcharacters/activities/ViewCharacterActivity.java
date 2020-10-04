@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.util.Objects;
 
 import id.ac.ui.ac.mobileprogramming.nathanael.pocketguideofcharacters.R;
@@ -21,6 +23,8 @@ public class ViewCharacterActivity extends AppCompatActivity {
 
     DatabaseHelper databaseHelper;
     String id;
+    String name;
+    FloatingActionButton timerModeButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +50,16 @@ public class ViewCharacterActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 openDeleteConfirmationDialog();
+            }
+        });
+
+        timerModeButton = findViewById(R.id.timerModeButton);
+        timerModeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getApplicationContext(), TimerActivity.class);
+                i.putExtra("name", ViewCharacterActivity.this.name);
+                startActivity(i);
             }
         });
     }
@@ -81,7 +95,7 @@ public class ViewCharacterActivity extends AppCompatActivity {
         target = findViewById(R.id.ageFieldRead);
         target.setText(cursor.getString(2));
 
-        final String name = cursor.getString(1);
+        name = cursor.getString(1);
 
         Objects.requireNonNull(getSupportActionBar()).setTitle(name);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

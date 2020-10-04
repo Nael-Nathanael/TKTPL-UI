@@ -28,7 +28,7 @@ public class LandingActivity extends AppCompatActivity {
 
         databaseHelper = new DatabaseHelper(LandingActivity.this);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.addButton);
+        FloatingActionButton fab = findViewById(R.id.addButton);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
