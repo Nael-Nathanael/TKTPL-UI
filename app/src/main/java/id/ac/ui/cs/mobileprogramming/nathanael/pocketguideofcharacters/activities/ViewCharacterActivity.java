@@ -28,7 +28,6 @@ public class ViewCharacterActivity extends AppCompatActivity {
     String extraId;
     View.OnClickListener editButtonClickListener;
     View.OnClickListener deleteButtonClickListener;
-    View.OnClickListener timerButtonClickListener;
     Button editButton;
     Button deleteButton;
     TextView nameView;

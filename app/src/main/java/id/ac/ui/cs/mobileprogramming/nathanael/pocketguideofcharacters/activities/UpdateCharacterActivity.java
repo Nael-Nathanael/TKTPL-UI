@@ -15,52 +15,98 @@ import id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.R;
 import id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.activities.fragment.ConfirmationDialog;
 import id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.service.FirebaseConnectorService;
 
+/**
+ * Simple edit character data.
+ *
+ * @author Nathanael
+ */
 public class UpdateCharacterActivity extends AppCompatActivity {
 
+    /**
+     * Connection to firebase
+     */
     FirebaseConnectorService firebaseConnectorService;
+
+    /**
+     * Original Id passed using extras
+     */
     String originId;
+
+    /**
+     * Original name passed using extras
+     */
     String originName;
+
+    /**
+     * Original age passed using extras
+     */
     int originAge;
+
+    /**
+     * Text field for name
+     */
     TextView nameField;
+
+    /**
+     * Text field for age
+     */
     TextView ageField;
 
+    /**
+     * @param savedInstanceState to pass to superclass
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_character);
 
+        // initiate attribute variables
         firebaseConnectorService = new FirebaseConnectorService();
-
         originId = getIntent().getStringExtra("id");
         originName = getIntent().getStringExtra("name");
         originAge = getIntent().getIntExtra("age", 0);
+        nameField = findViewById(R.id.nameFieldUpdate);
+        ageField = findViewById(R.id.ageFieldUpdate);
 
+        // set action bar title to name
         Objects.requireNonNull(getSupportActionBar()).setTitle(originName);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        nameField = findViewById(R.id.nameFieldUpdate);
+        // set default value for text input field
         nameField.setText(originName);
-
-        ageField = findViewById(R.id.ageFieldUpdate);
         ageField.setText(String.valueOf(originAge));
 
+        // bind update button
         Button updateButton = findViewById(R.id.updateButton);
         updateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // get values from views
                 String name = nameField.getText().toString();
                 String ageStr = ageField.getText().toString();
+
+                // only run this if fields are not empty
                 if (!name.isEmpty() && !ageStr.isEmpty()) {
                     int age = Integer.parseInt(ageStr);
-                    firebaseConnectorService.mDatabase.child("characters").child(originId).child("name").setValue(name);
-                    firebaseConnectorService.mDatabase.child("characters").child(originId).child("age").setValue(age);
+
+                    // only update database if name or age different than in records
+                    if (!name.equals(originName) || age != originAge) {
+                        firebaseConnectorService.mDatabase.child("characters").child(originId).child("name").setValue(name);
+                        firebaseConnectorService.mDatabase.child("characters").child(originId).child("age").setValue(age);
+                    }
+
+                    // end this activity
                     finish();
                 }
             }
         });
     }
 
+    /**
+     * @param item from menu
+     * @return selected menu option
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
@@ -69,11 +115,23 @@ public class UpdateCharacterActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Created to override back button default behavior.
+     *
+     * @param keyCode pressed key
+     * @param event   to pass to superclass
+     * @return superclass's return if pressed key not back. return true to allow default back behavior. return false otherwise.
+     */
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
+        // only run this on back button pressed
         if (keyCode == KeyEvent.KEYCODE_BACK) {
+
+            // get values from view
             String name = String.valueOf(nameField.getText());
             int age = Integer.parseInt(ageField.getText().toString());
+
+            // send confirmation dialog if try to exit without saving changes
             if (!name.equals(originName) || age != originAge) {
                 openBackConfirmationDialog();
                 return false;
@@ -85,6 +143,9 @@ public class UpdateCharacterActivity extends AppCompatActivity {
         return super.onKeyDown(keyCode, event);
     }
 
+    /**
+     * Show confirmation dialog
+     */
     private void openBackConfirmationDialog() {
         ConfirmationDialog confirmationDialog = new ConfirmationDialog(UpdateCharacterActivity.this);
         confirmationDialog.show(getSupportFragmentManager(), "Form cancelation dialogue");

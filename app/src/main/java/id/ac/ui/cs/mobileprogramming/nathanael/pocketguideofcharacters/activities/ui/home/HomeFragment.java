@@ -26,13 +26,41 @@ import id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.layout_ma
 import id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.models.TheCharacter;
 import id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.service.FirebaseConnectorService;
 
+/**
+ * Primary layout to access, edit, delete characters
+ *
+ * @author Nathanael
+ */
 public class HomeFragment extends Fragment {
 
+    /**
+     * Firebase real time database connection.
+     */
     FirebaseConnectorService firebaseConnectorService;
+
+    /**
+     * All fetched character lists.
+     */
     List<TheCharacter> characters;
+
+    /**
+     * Inflated primary layout
+     */
     View root;
+
+    /**
+     * Bind context.
+     */
     Context context;
 
+    /**
+     * Called when view create, inflate root / base layout for this fragment.
+     *
+     * @param inflater           layout inflater
+     * @param container          fragment view group
+     * @param savedInstanceState to pass to superclass
+     * @return inflated primary layout
+     */
     public View onCreateView(
             @NonNull LayoutInflater inflater,
             ViewGroup container,
@@ -42,36 +70,62 @@ public class HomeFragment extends Fragment {
         return root;
     }
 
+    /**
+     * Called when this fragment gain focus.
+     *
+     * @param context binded context;
+     */
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         this.context = context;
+
+        // rerender and fetch
         rerenderHomeFragment();
         fetchFromDatabase();
     }
 
+    // fetch from firebase real time database
     private void fetchFromDatabase() {
         firebaseConnectorService = new FirebaseConnectorService();
+
+        // create event listener for firebase data change.
         ValueEventListener valueEventListener = new ValueEventListener() {
+
+            /**
+             * @param snapshot fetched changes for firebase object
+             */
             @Override
             public void onDataChange(@NonNull final DataSnapshot snapshot) {
+                // if data changed, refetch all characters
                 characters = new ArrayList<>();
                 for (DataSnapshot postSnapshot : snapshot.getChildren()) {
                     characters.add(
                             postSnapshot.getValue(TheCharacter.class)
                     );
                 }
+
+                // then rerender the recycler layout
                 rerenderHomeFragment();
             }
 
+            /**
+             * Show toast if has errors.
+             * @param error information by firebase
+             */
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Toast.makeText(getContext(), "No Internet Connection!", Toast.LENGTH_SHORT).show();
             }
         };
+
+        // set event listener to firebase's "characters" table
         firebaseConnectorService.mDatabase.child("characters").addValueEventListener(valueEventListener);
     }
 
+    /**
+     * Rerender Recycler View + Grid View + Card View
+     */
     private void rerenderHomeFragment() {
         if (characters != null) {
             View loadingbar = root.findViewById(R.id.main_loading_progress_bar);
@@ -97,8 +151,12 @@ public class HomeFragment extends Fragment {
         }
     }
 
+    /**
+     * Calculate span count using context's dimension.
+     *
+     * @return span count
+     */
     private int getSpanCount() {
-
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
         int focus = displayMetrics.widthPixels;
         focus = (int) (focus / context.getResources().getDisplayMetrics().density);

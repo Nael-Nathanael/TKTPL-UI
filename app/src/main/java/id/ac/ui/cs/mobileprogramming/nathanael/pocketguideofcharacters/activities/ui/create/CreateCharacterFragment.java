@@ -1,4 +1,4 @@
-package id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.activities.ui.dashboard;
+package id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.activities.ui.create;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,7 +14,7 @@ import androidx.fragment.app.Fragment;
 import id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.R;
 import id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.service.FirebaseConnectorService;
 
-public class DashboardFragment extends Fragment {
+public class CreateCharacterFragment extends Fragment {
 
     FirebaseConnectorService firebaseConnectorService;
     TextView nameField;

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.activities.ui.dashboard.DashboardFragment" >
+    tools:context="id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.activities.ui.create.CreateCharacterFragment" >
 
     <TextView
         android:id="@+id/nameLabel"

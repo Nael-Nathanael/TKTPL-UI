@@ -13,7 +13,7 @@
 
     <fragment
         android:id="@+id/navigation_dashboard"
-        android:name="id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.activities.ui.dashboard.DashboardFragment"
+        android:name="id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.activities.ui.create.CreateCharacterFragment"
         android:label="@string/create"
         tools:layout="@layout/fragment_dashboard" />
 
