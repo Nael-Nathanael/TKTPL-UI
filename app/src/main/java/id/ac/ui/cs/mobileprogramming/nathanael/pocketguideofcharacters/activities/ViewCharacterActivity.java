@@ -32,7 +32,6 @@ public class ViewCharacterActivity extends AppCompatActivity {
     View.OnClickListener timerButtonClickListener;
     Button editButton;
     Button deleteButton;
-    FloatingActionButton timerModeButton;
     TextView nameView;
     TextView ageView;
 
@@ -45,7 +44,6 @@ public class ViewCharacterActivity extends AppCompatActivity {
         extraId = getIntent().getStringExtra("id");
         editButton = findViewById(R.id.editButton);
         deleteButton = findViewById(R.id.deleteButton);
-        timerModeButton = findViewById(R.id.timerModeButton);
         nameView = findViewById(R.id.nameFieldRead);
         ageView = findViewById(R.id.ageFieldRead);
 
@@ -84,7 +82,6 @@ public class ViewCharacterActivity extends AppCompatActivity {
         if (mainCharacter != null) {
             editButton.setOnClickListener(null);
             deleteButton.setOnClickListener(null);
-            timerModeButton.setOnClickListener(null);
 
             nameView.setText(mainCharacter.name);
             ageView.setText(String.valueOf(mainCharacter.age));
@@ -107,16 +104,6 @@ public class ViewCharacterActivity extends AppCompatActivity {
                 }
             };
             deleteButton.setOnClickListener(deleteButtonClickListener);
-
-            timerButtonClickListener = new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent i = new Intent(getApplicationContext(), TimerActivity.class);
-                    i.putExtra("name", mainCharacter.name);
-                    startActivity(i);
-                }
-            };
-            timerModeButton.setOnClickListener(timerButtonClickListener);
         }
     }
 }

@@ -28,6 +28,7 @@
         </activity>
 
         <service android:name=".service.ChronoService" />
+        <service android:name=".service.BgmPlayerService" />
 
         <meta-data
             android:name="preloaded_fonts"

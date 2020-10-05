@@ -10,7 +10,7 @@
         android:layout_height="0dp"
         android:clickable="true"
         android:focusable="true"
-        app:cardBackgroundColor="#FFFFFF"
+        app:cardBackgroundColor="#000000"
         app:cardCornerRadius="6dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="3:4"
@@ -23,7 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/shadow_background_1"
-            android:backgroundTint="#FFFFFF"
+            android:backgroundTint="#000000"
             android:backgroundTintMode="multiply">
 
             <TextView

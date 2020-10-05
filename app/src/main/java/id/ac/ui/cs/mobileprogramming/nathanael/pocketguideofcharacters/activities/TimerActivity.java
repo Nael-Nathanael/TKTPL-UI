@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
-import android.media.PlaybackParams;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -20,6 +19,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.Objects;
 
 import id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.R;
+import id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.service.BgmPlayerService;
 import id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.service.ChronoService;
 
 public class TimerActivity extends AppCompatActivity {
@@ -30,6 +30,7 @@ public class TimerActivity extends AppCompatActivity {
     FloatingActionButton stop_countdown_button;
     VideoView videoview;
     SharedPreferences sharedPref;
+    Intent bgmService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,20 +45,24 @@ public class TimerActivity extends AppCompatActivity {
 
     private void setupBgm() {
         if (isRunning()) {
+            videoview.setVisibility(View.VISIBLE);
+
             new Thread(new Runnable() {
                 public void run() {
                     final Uri uri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.rain);
                     videoview.post(new Runnable() {
                         public void run() {
                             videoview.setVideoURI(uri);
+                            videoview.start();
                         }
                     });
                 }
             }).start();
-
-            videoview.start();
+            startService(bgmService);
         } else {
             videoview.stopPlayback();
+            videoview.setVisibility(View.INVISIBLE);
+            stopService(bgmService);
         }
     }
 
@@ -144,6 +149,7 @@ public class TimerActivity extends AppCompatActivity {
                 mp.setLooping(true);
             }
         });
+        bgmService = new Intent(TimerActivity.this, BgmPlayerService.class);
     }
 
     @Override

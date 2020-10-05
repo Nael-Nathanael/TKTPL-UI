@@ -1,7 +1,9 @@
 package id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.activities.ui.home;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -81,17 +83,26 @@ public class HomeFragment extends Fragment {
             RecyclerView recyclerView = root.findViewById(R.id.recyclerViewCard);
 
             LandingRecyclerViewAdapter viewAdapter = new LandingRecyclerViewAdapter(getContext(), characters);
+            int spanCount = getSpanCount();
             recyclerView.setAdapter(viewAdapter);
             recyclerView.setLayoutManager(
-                    new GridLayoutManager(getContext(), 2)
+                    new GridLayoutManager(getContext(), spanCount)
             );
             recyclerView.addItemDecoration(
                     new GridSpacingItemDecoration(
-                            2,
+                            spanCount,
                             Math.round(12 * context.getResources().getDisplayMetrics().density),
                             true
                     )
             );
         }
+    }
+
+    private int getSpanCount() {
+
+        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+        int focus = displayMetrics.widthPixels;
+        focus = (int) (focus / context.getResources().getDisplayMetrics().density);
+        return focus / 160;
     }
 }

@@ -9,6 +9,7 @@
                 android:centerColor="#FFFFFFFF"
                 android:endColor="#FFFFFFFF"
                 android:startColor="#B2000000"/>
+            <stroke android:width="1dip" android:color="#4fa5d5"/>
         </shape>
     </item>
 </layer-list>
