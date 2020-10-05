@@ -10,7 +10,7 @@
         android:layout_height="0dp"
         android:clickable="true"
         android:focusable="true"
-        app:cardBackgroundColor="#000000"
+        app:cardBackgroundColor="#FFFFFF"
         app:cardCornerRadius="6dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="3:4"
@@ -21,7 +21,10 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/the_constraint"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@drawable/shadow_background_1"
+            android:backgroundTint="#FFFFFF"
+            android:backgroundTintMode="multiply">
 
             <TextView
                 android:id="@+id/card_age"
@@ -41,7 +44,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:contextClickable="true"
-                android:gravity="center"
+                android:padding="6dp"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
