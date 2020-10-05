@@ -2,6 +2,7 @@ package id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +19,6 @@ import id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.models.Th
 
 public class LandingRecyclerViewAdapter extends RecyclerView.Adapter<LandingCardViewHolder> {
 
-
     private Context context;
     private List<TheCharacter> characterList;
 
@@ -30,7 +30,6 @@ public class LandingRecyclerViewAdapter extends RecyclerView.Adapter<LandingCard
     @NonNull
     @Override
     public LandingCardViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
         View view;
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         view = layoutInflater.inflate(R.layout.single_card, parent, false);
