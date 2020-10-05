@@ -37,8 +37,6 @@ public class ChronoService extends Service {
 
         startForeground(1, notification);
 
-//        stopSelf();
-
         return START_NOT_STICKY;
     }
 }

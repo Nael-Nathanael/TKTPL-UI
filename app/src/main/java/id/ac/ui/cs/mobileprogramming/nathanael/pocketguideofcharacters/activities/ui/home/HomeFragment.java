@@ -1,5 +1,6 @@
 package id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.activities.ui.home;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +30,7 @@ public class HomeFragment extends Fragment {
     FirebaseConnectorService firebaseConnectorService;
     List<TheCharacter> characters;
     View root;
+    Context context;
 
     public View onCreateView(
             @NonNull LayoutInflater inflater,
@@ -36,17 +38,22 @@ public class HomeFragment extends Fragment {
             Bundle savedInstanceState
     ) {
         root = inflater.inflate(R.layout.fragment_home, container, false);
+        return root;
+    }
 
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        this.context = context;
         rerenderHomeFragment();
         fetchFromDatabase();
-        return root;
     }
 
     private void fetchFromDatabase() {
         firebaseConnectorService = new FirebaseConnectorService();
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
+            public void onDataChange(@NonNull final DataSnapshot snapshot) {
                 characters = new ArrayList<>();
                 for (DataSnapshot postSnapshot : snapshot.getChildren()) {
                     characters.add(
@@ -67,7 +74,9 @@ public class HomeFragment extends Fragment {
     private void rerenderHomeFragment() {
         if (characters != null) {
             View loadingbar = root.findViewById(R.id.main_loading_progress_bar);
-            ((ViewGroup) loadingbar.getParent()).removeView(loadingbar);
+            if (loadingbar != null) {
+                ((ViewGroup) loadingbar.getParent()).removeView(loadingbar);
+            }
 
             RecyclerView recyclerView = root.findViewById(R.id.recyclerViewCard);
 
@@ -79,7 +88,7 @@ public class HomeFragment extends Fragment {
             recyclerView.addItemDecoration(
                     new GridSpacingItemDecoration(
                             2,
-                            Math.round(12 * getResources().getDisplayMetrics().density),
+                            Math.round(12 * context.getResources().getDisplayMetrics().density),
                             true
                     )
             );

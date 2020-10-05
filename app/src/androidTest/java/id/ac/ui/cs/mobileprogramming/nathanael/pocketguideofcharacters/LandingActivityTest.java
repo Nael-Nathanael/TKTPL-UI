@@ -16,6 +16,8 @@ import org.junit.runner.RunWith;
 
 import java.util.Collection;
 
+import id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.activities.BottomNavigationActivity;
+
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
@@ -28,41 +30,23 @@ import static org.junit.Assert.assertNotNull;
 public class LandingActivityTest {
 
     @Rule
-    public ActivityScenarioRule<LandingActivity> activityScenarioRule = new ActivityScenarioRule<>(LandingActivity.class);
+    public ActivityScenarioRule<BottomNavigationActivity> activityScenarioRule = new ActivityScenarioRule<>(BottomNavigationActivity.class);
 
     @Test
     public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("id.ac.ui.ac.mobileprogramming.nathanael.pocketguideofcharacters", appContext.getPackageName());
+        assertEquals("id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters", appContext.getPackageName());
     }
 
     @Test
     public void whenLaunchedShouldShowRecyclerViewLayout() {
-        activityScenarioRule.getScenario().onActivity(new ActivityScenario.ActivityAction<LandingActivity>() {
+        activityScenarioRule.getScenario().onActivity(new ActivityScenario.ActivityAction<BottomNavigationActivity>() {
             @Override
-            public void perform(LandingActivity activity) {
+            public void perform(BottomNavigationActivity activity) {
                 View view = activity.findViewById(R.id.recyclerViewCard);
                 assertNotNull(view);
             }
         });
-    }
-
-    @Test
-    public void whenLaunchedHasFunctionalCreateFloatingButton() {
-        onView(withId(R.id.addButton)).perform(click());
-
-        final Activity[] currentActivity = {null};
-        getInstrumentation().runOnMainSync(new Runnable() {
-            public void run() {
-                Collection<Activity> resumedActivities =
-                        ActivityLifecycleMonitorRegistry.getInstance().getActivitiesInStage(RESUMED);
-                if (resumedActivities.iterator().hasNext()) {
-                    currentActivity[0] = (Activity) resumedActivities.iterator().next();
-                }
-            }
-        });
-
-        assertEquals(CreateCharacterActivity.class, currentActivity[0].getClass());
     }
 }

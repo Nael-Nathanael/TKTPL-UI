@@ -14,7 +14,7 @@
     <fragment
         android:id="@+id/navigation_dashboard"
         android:name="id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.activities.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
+        android:label="@string/create"
         tools:layout="@layout/fragment_dashboard" />
 
 </navigation>

@@ -20,6 +20,4 @@ public class FirebaseConnectorService {
         mDatabase.child("characters").child(newId).setValue(theCharacter);
     }
 
-    public void deleteCharacterById(String id) {
-    }
 }
