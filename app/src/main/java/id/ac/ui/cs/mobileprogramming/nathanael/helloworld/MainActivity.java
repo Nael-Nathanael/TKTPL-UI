@@ -1,4 +1,4 @@
-package id.ac.ui.ac.mobileprogramming.nathanael.helloworld;
+package id.ac.ui.cs.mobileprogramming.nathanael.helloworld;
 
 import androidx.appcompat.app.AppCompatActivity;
 
