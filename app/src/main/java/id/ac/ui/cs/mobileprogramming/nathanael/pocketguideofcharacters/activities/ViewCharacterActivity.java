@@ -12,7 +12,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
@@ -91,6 +90,8 @@ public class ViewCharacterActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     Intent i = new Intent(getApplicationContext(), UpdateCharacterActivity.class);
                     i.putExtra("id", mainCharacter.id);
+                    i.putExtra("name", mainCharacter.name);
+                    i.putExtra("age", mainCharacter.age);
                     startActivity(i);
                 }
             };

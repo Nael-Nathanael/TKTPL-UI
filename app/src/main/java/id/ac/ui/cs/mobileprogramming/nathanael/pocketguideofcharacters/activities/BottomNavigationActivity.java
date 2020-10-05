@@ -2,8 +2,11 @@ package id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.activiti
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
@@ -17,13 +20,14 @@ import id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.R;
 
 public class BottomNavigationActivity extends AppCompatActivity {
 
+    private boolean backPressedToExitOnce = false;
+    private Toast toast = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base_navigation);
         BottomNavigationView navView = findViewById(R.id.nav_view);
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.navigation_home,
                 R.id.navigation_dashboard
@@ -52,5 +56,68 @@ public class BottomNavigationActivity extends AppCompatActivity {
             );
         }
         return super.onOptionsItemSelected(item);
+    }
+
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (findViewById(R.id.nameField) != null) {
+                findViewById(R.id.navigation_home).performClick();
+                return false;
+            } else if (!backPressedToExitOnce) {
+                this.backPressedToExitOnce = true;
+                showToast("Press again to exit");
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        backPressedToExitOnce = false;
+                    }
+                }, 2000);
+                return false;
+            }
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    /**
+     * Created to make sure that you toast doesn't show miltiple times, if user pressed back
+     * button more than once. Ref: https://stackoverflow.com/a/20853151/13645004.
+     *
+     * @param message Message to show on toast.
+     */
+    private void showToast(String message) {
+        if (this.toast == null) {
+            // Create toast if found null, it would he the case of first call only
+            this.toast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
+
+        } else if (this.toast.getView() == null) {
+            // Toast not showing, so create new one
+            this.toast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
+
+        } else {
+            // Updating toast message is showing
+            this.toast.setText(message);
+        }
+
+        // Showing toast finally
+        this.toast.show();
+    }
+
+    /**
+     * Kill the toast if showing. Supposed to call from onPause() of activity.
+     * So that toast also get removed as activity goes to background, to improve
+     * better app experience for user. Ref: https://stackoverflow.com/a/20853151/13645004.
+     */
+    private void killToast() {
+        if (this.toast != null) {
+            this.toast.cancel();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        killToast();
+        super.onPause();
     }
 }

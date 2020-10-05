@@ -44,7 +44,7 @@ public class DashboardFragment extends Fragment {
                     ageField.setText("");
                     Toast.makeText(getContext(), "Character Creation Complete", Toast.LENGTH_SHORT).show();
 
-                    getActivity().findViewById(R.id.navigation_home).performClick();
+                    requireActivity().findViewById(R.id.navigation_home).performClick();
                 }
             }
         });
