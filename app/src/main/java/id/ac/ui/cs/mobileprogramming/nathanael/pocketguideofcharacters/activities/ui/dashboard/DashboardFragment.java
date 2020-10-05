@@ -12,21 +12,20 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.R;
-import id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.database.DatabaseHelper;
+import id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.service.FirebaseConnectorService;
 
 public class DashboardFragment extends Fragment {
 
-    DatabaseHelper databaseHelper;
+    FirebaseConnectorService firebaseConnectorService;
     TextView nameField;
     TextView ageField;
     Button createButton;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+
         View root = inflater.inflate(R.layout.fragment_dashboard, container, false);
-
-
-        databaseHelper = new DatabaseHelper(getContext());
+        firebaseConnectorService = new FirebaseConnectorService();
 
         createButton = root.findViewById(R.id.createButton);
         nameField = root.findViewById(R.id.nameField);
@@ -36,10 +35,11 @@ public class DashboardFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String name = nameField.getText().toString();
-                String age = ageField.getText().toString();
+                String ageStr = ageField.getText().toString();
 
-                if (!name.isEmpty() && !age.isEmpty()) {
-                    databaseHelper.createCharacter(name, age);
+                if (!name.isEmpty() && !ageStr.isEmpty()) {
+                    int age = Integer.parseInt(ageStr);
+                    firebaseConnectorService.createCharacter(name, age);
                     nameField.setText("");
                     ageField.setText("");
                     Toast.makeText(getContext(), "Character Creation Complete", Toast.LENGTH_SHORT).show();

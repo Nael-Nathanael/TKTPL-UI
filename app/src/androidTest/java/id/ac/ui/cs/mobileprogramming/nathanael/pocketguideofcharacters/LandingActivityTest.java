@@ -16,8 +16,6 @@ import org.junit.runner.RunWith;
 
 import java.util.Collection;
 
-import id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.activities.CreateCharacterActivity;
-
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;

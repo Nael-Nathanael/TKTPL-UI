@@ -19,7 +19,6 @@
         <activity android:name=".activities.TimerActivity" />
         <activity android:name=".activities.UpdateCharacterActivity" />
         <activity android:name=".activities.ViewCharacterActivity" />
-        <activity android:name=".activities.CreateCharacterActivity" />
         <activity android:name=".MainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

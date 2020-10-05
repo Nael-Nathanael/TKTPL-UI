@@ -2,7 +2,6 @@ package id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,21 +29,24 @@ public class LandingRecyclerViewAdapter extends RecyclerView.Adapter<LandingCard
     @NonNull
     @Override
     public LandingCardViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view;
         LayoutInflater layoutInflater = LayoutInflater.from(context);
-        view = layoutInflater.inflate(R.layout.single_card, parent, false);
+        View view = layoutInflater.inflate(R.layout.single_card, parent, false);
         return new LandingCardViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull LandingCardViewHolder holder, final int position) {
-        holder.age_placement.setText(characterList.get(position).getAge());
-        holder.name_placement.setText(characterList.get(position).getName());
+        holder.age_placement.setText(
+                String.valueOf(
+                        characterList.get(position).age
+                )
+        );
+        holder.name_placement.setText(characterList.get(position).name);
         holder.the_card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, ViewCharacterActivity.class);
-                intent.putExtra("id", characterList.get(position).getId());
+                intent.putExtra("id", characterList.get(position).id);
                 context.startActivity(intent);
             }
         });
@@ -52,6 +54,6 @@ public class LandingRecyclerViewAdapter extends RecyclerView.Adapter<LandingCard
 
     @Override
     public int getItemCount() {
-        return characterList.size();
+        return characterList == null ? 0 : characterList.size();
     }
 }

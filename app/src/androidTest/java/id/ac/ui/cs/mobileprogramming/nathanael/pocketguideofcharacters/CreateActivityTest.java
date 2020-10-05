@@ -10,8 +10,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.activities.CreateCharacterActivity;
-
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;

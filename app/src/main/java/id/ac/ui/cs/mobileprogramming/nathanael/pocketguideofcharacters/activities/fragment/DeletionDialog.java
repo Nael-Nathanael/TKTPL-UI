@@ -15,16 +15,18 @@ import androidx.appcompat.app.AppCompatDialogFragment;
 import java.util.Objects;
 
 import id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.R;
-import id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.database.DatabaseHelper;
+import id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.service.FirebaseConnectorService;
 
 public class DeletionDialog extends AppCompatDialogFragment {
 
     Activity context;
     String id;
+    FirebaseConnectorService firebaseConnectorService;
 
     public DeletionDialog(Activity context, String id) {
         this.context = context;
         this.id = id;
+        firebaseConnectorService = new FirebaseConnectorService();
     }
 
     @NonNull
@@ -43,8 +45,7 @@ public class DeletionDialog extends AppCompatDialogFragment {
         confirmYesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatabaseHelper databaseHelper = new DatabaseHelper(context);
-                databaseHelper.deleteCharacterById(id);
+                firebaseConnectorService.deleteCharacterById(id);
                 context.finish();
             }
         });
