@@ -1,5 +1,6 @@
 package id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.activities;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,12 +13,12 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
 import id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.R;
-import id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.activities.fragment.DeletionDialog;
 import id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.models.TheCharacter;
 import id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.service.FirebaseConnectorService;
 
@@ -99,8 +100,33 @@ public class ViewCharacterActivity extends AppCompatActivity {
             deleteButtonClickListener = new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    DeletionDialog confirmationDialog = new DeletionDialog(ViewCharacterActivity.this, mainCharacter.id);
-                    confirmationDialog.show(getSupportFragmentManager(), "Deletion dialogue");
+                    new MaterialAlertDialogBuilder(ViewCharacterActivity.this, R.style.DeleteDialogTheme)
+                            .setTitle("Confirm Delete " + mainCharacter.name)
+                            .setMessage("After deletion, " + mainCharacter.name + " will be lost forever")
+                            .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    firebaseConnectorService.mDatabase.child("characters").child(mainCharacter.id).addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(DataSnapshot dataSnapshot) {
+                                            dataSnapshot.getRef().removeValue();
+                                            finish();
+                                            Toast.makeText(ViewCharacterActivity.this, "Character Deletion Complete", Toast.LENGTH_SHORT).show();
+                                        }
+
+                                        @Override
+                                        public void onCancelled(DatabaseError databaseError) {
+                                        }
+                                    });
+                                }
+                            })
+                            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+
+                                }
+                            })
+                            .show();
                 }
             };
             deleteButton.setOnClickListener(deleteButtonClickListener);
