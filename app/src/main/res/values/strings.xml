@@ -10,15 +10,6 @@
     <string name="pocket_guide_of_characters">Pocket Guide of Characters</string>
     <string name="are_you_sure">Are you sure?</string>
     <string name="yes">Yes</string>
-    <string name="double_dot">:</string>
-    <string name="_00">00</string>
-    <string name="title_activity_base_landing">MainActivity</string>
     <string name="title_home">Home</string>
-    <string name="tab_text_1">Tab 1</string>
-    <string name="tab_text_2">Tab 2</string>
     <string name="title_activity_bottom_navigation">MainActivity</string>
-    <string name="more">More</string>
-    <string name="content_description_more">More Description</string>
-    <string name="search">Search</string>
-    <string name="content_description_search">Search Description</string>
 </resources>

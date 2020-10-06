@@ -222,10 +222,6 @@ public class TimerActivity extends AppCompatActivity {
      * Initialize variables and setup fullscreen
      */
     private void timerActivityStartProtocol() {
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        Objects.requireNonNull(getSupportActionBar()).hide();
-
         chronometer = findViewById(R.id.Chronometer);
         start_chrono_button = findViewById(R.id.start_countdown_button);
         stop_chrono_button = findViewById(R.id.stop_countdown_button);

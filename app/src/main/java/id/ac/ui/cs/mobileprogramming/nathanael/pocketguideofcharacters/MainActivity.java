@@ -23,7 +23,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setFullScreen();
         setContentView(R.layout.activity_main);
         initSplashTimer();
     }
@@ -42,14 +41,5 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         }, SPLASH_SCREEN_TIME_OUT);
-    }
-
-    /**
-     * Set activity as fullscreen: flag it and hide support action bar.
-     */
-    private void setFullScreen() {
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        Objects.requireNonNull(getSupportActionBar()).hide();
     }
 }
