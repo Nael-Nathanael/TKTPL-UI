@@ -18,7 +18,10 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.R;
+import id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.R2;
 import id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.models.TheCharacter;
 import id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.service.FirebaseConnectorService;
 
@@ -29,22 +32,27 @@ public class ViewCharacterActivity extends AppCompatActivity {
     String extraId;
     View.OnClickListener editButtonClickListener;
     View.OnClickListener deleteButtonClickListener;
+
+    @BindView(R2.id.editButton)
     Button editButton;
+
+    @BindView(R2.id.deleteButton)
     Button deleteButton;
+
+    @BindView(R2.id.nameFieldRead)
     TextView nameView;
+
+    @BindView(R2.id.ageFieldRead)
     TextView ageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_character);
+        ButterKnife.bind(this);
 
         firebaseConnectorService = new FirebaseConnectorService();
         extraId = getIntent().getStringExtra("id");
-        editButton = findViewById(R.id.editButton);
-        deleteButton = findViewById(R.id.deleteButton);
-        nameView = findViewById(R.id.nameFieldRead);
-        ageView = findViewById(R.id.ageFieldRead);
 
         rerenderCharacterView();
         refreshData();

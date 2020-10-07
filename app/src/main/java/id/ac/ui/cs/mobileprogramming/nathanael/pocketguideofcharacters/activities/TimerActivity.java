@@ -8,7 +8,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Chronometer;
 import android.widget.VideoView;
 
@@ -16,9 +15,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.util.Objects;
-
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.R;
+import id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.R2;
 import id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.service.BgmPlayerService;
 import id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.service.ChronoService;
 
@@ -32,26 +32,31 @@ public class TimerActivity extends AppCompatActivity {
     /**
      * Primary component chronometer
      */
+    @BindView(R2.id.Chronometer)
     Chronometer chronometer;
 
     /**
      * Control button to start chronometer
      */
+    @BindView(R2.id.start_countdown_button)
     FloatingActionButton start_chrono_button;
 
     /**
      * Control button to pause chronometer
      */
+    @BindView(R2.id.pause_countdown_button)
     FloatingActionButton pause_chrono_button;
 
     /**
      * Control button to stop chronometer
      */
+    @BindView(R2.id.stop_countdown_button)
     FloatingActionButton stop_chrono_button;
 
     /**
      * Background video
      */
+    @BindView(R2.id.rain_bg_view)
     VideoView videoview;
 
     /**
@@ -73,6 +78,7 @@ public class TimerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timer);
+        ButterKnife.bind(this);
 
         timerActivityStartProtocol();
         timerActivityResumingProtocol();
@@ -222,12 +228,7 @@ public class TimerActivity extends AppCompatActivity {
      * Initialize variables and setup fullscreen
      */
     private void timerActivityStartProtocol() {
-        chronometer = findViewById(R.id.Chronometer);
-        start_chrono_button = findViewById(R.id.start_countdown_button);
-        stop_chrono_button = findViewById(R.id.stop_countdown_button);
-        pause_chrono_button = findViewById(R.id.pause_countdown_button);
         sharedPref = TimerActivity.this.getSharedPreferences("chronosphere", Context.MODE_PRIVATE);
-        videoview = findViewById(R.id.rain_bg_view);
 
         // initialize audio/video service
         videoview.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {

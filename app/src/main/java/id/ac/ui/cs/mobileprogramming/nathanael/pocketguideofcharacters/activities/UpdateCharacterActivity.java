@@ -11,7 +11,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Objects;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.R;
+import id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.R2;
 import id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.activities.fragment.ConfirmationDialog;
 import id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.service.FirebaseConnectorService;
 
@@ -45,11 +48,13 @@ public class UpdateCharacterActivity extends AppCompatActivity {
     /**
      * Text field for name
      */
+    @BindView(R2.id.nameFieldUpdate)
     TextView nameField;
 
     /**
      * Text field for age
      */
+    @BindView(R2.id.ageFieldUpdate)
     TextView ageField;
 
     /**
@@ -59,14 +64,13 @@ public class UpdateCharacterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_character);
+        ButterKnife.bind(this);
 
         // initiate attribute variables
         firebaseConnectorService = new FirebaseConnectorService();
         originId = getIntent().getStringExtra("id");
         originName = getIntent().getStringExtra("name");
         originAge = getIntent().getIntExtra("age", 0);
-        nameField = findViewById(R.id.nameFieldUpdate);
-        ageField = findViewById(R.id.ageFieldUpdate);
 
         // set action bar title to name
         Objects.requireNonNull(getSupportActionBar()).setTitle(originName);

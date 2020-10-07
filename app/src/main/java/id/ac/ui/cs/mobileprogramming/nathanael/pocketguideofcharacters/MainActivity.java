@@ -3,16 +3,14 @@ package id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.WindowManager;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import java.util.Objects;
 
 import id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.activities.LandingActivity;
 
 /**
  * Primary Activity only to create splash screen and redirect to landing activity
+ *
  * @author Nathanael
  */
 public class MainActivity extends AppCompatActivity {
