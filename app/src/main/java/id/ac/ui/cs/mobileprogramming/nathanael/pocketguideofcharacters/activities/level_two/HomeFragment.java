@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.tabs.TabLayout;
@@ -16,6 +17,7 @@ import com.google.android.material.tabs.TabLayoutMediator;
 import java.util.Objects;
 
 import id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.R;
+import id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.activities.NavigationViewModel;
 
 /**
  * Main and landing activity, using bottom navigation and several fragment.
@@ -84,6 +86,9 @@ public class HomeFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        NavigationViewModel navigationViewModel = new ViewModelProvider(requireActivity()).get(NavigationViewModel.class);
+        navigationViewModel.getActive().setValue(viewPager2.getCurrentItem() != 1);
+
         String title = "Home";
         if (viewPager2.getCurrentItem() == 1) {
             title = "Create";

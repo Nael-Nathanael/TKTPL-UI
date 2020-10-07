@@ -1,8 +1,10 @@
 package id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.activities.level_one;
 
+import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -11,13 +13,19 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.widget.ViewPager2;
 
 import id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.R;
+import id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.activities.NavigationViewModel;
 import id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.activities.TimerActivity;
 
 public class BaseActivity extends AppCompatActivity {
 
+    BroadcastReceiver top_pager_disabler;
+    BroadcastReceiver top_pager_enabler;
+    NavigationViewModel navigationViewModel;
     /**
      * Required attribute to override exit by pressing back button twice.
      * Ref: https://stackoverflow.com/a/20853151/13645004.
@@ -34,8 +42,23 @@ public class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base);
 
-        ViewPager2 viewPager2 = findViewById(R.id.base_pager);
+        final ViewPager2 viewPager2 = findViewById(R.id.base_pager);
         viewPager2.setAdapter(new BasePagerAdapter(this));
+
+
+        navigationViewModel = new ViewModelProvider(this).get(NavigationViewModel.class);
+
+        // Create the observer
+        final Observer<Boolean> stateObserver = new Observer<Boolean>() {
+            @Override
+            public void onChanged(@Nullable final Boolean active) {
+                Log.d("NaelsObserver", String.valueOf(active));
+                viewPager2.setUserInputEnabled(active);
+            }
+        };
+
+        // Observe the LiveData, passing in this activity as the LifecycleOwner and the observer.
+        navigationViewModel.getActive().observe(this, stateObserver);
     }
 
     /**
