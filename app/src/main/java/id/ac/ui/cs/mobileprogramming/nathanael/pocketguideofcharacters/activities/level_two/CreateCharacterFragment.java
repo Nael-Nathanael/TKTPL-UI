@@ -3,6 +3,8 @@ package id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.activiti
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -40,6 +42,12 @@ public class CreateCharacterFragment extends Fragment {
 
     View root;
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
@@ -52,6 +60,7 @@ public class CreateCharacterFragment extends Fragment {
                 createButtonClick();
             }
         });
+        setHasOptionsMenu(true);
 
         return root;
     }
@@ -71,6 +80,13 @@ public class CreateCharacterFragment extends Fragment {
             imm.hideSoftInputFromWindow(root.getWindowToken(), 0);
 
         }
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        menu.clear();
+        inflater.inflate(R.menu.custom_timer_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override

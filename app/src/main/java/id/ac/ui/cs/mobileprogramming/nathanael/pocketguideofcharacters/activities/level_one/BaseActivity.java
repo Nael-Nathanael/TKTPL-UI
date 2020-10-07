@@ -1,6 +1,5 @@
 package id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.activities.level_one;
 
-import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -23,9 +22,8 @@ import id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.activitie
 
 public class BaseActivity extends AppCompatActivity {
 
-    BroadcastReceiver top_pager_disabler;
-    BroadcastReceiver top_pager_enabler;
     NavigationViewModel navigationViewModel;
+    ViewPager2 viewPager2;
     /**
      * Required attribute to override exit by pressing back button twice.
      * Ref: https://stackoverflow.com/a/20853151/13645004.
@@ -42,7 +40,7 @@ public class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base);
 
-        final ViewPager2 viewPager2 = findViewById(R.id.base_pager);
+        viewPager2 = findViewById(R.id.base_pager);
         viewPager2.setAdapter(new BasePagerAdapter(this));
 
 
@@ -73,11 +71,11 @@ public class BaseActivity extends AppCompatActivity {
         // check back key pressed
         if (keyCode == KeyEvent.KEYCODE_BACK) {
 
-            if (findViewById(R.id.nameField) != null) {
-                // name field visible on current activity means current active fragment is Create
+            // name current visible fragment is Chat
+            if (viewPager2.getCurrentItem() == 1) {
 
-                // automatically go press the home navigation
-                findViewById(R.id.navigation_home).performClick();
+                // automatically go back to card list fragment
+                viewPager2.setCurrentItem(0);
 
                 // do not return default back, it will break the home fragment.
                 return false;
@@ -141,7 +139,7 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.custom_timer_menu, menu);
+        inflater.inflate(R.menu.custom_timer_menu_with_chat, menu);
         return true;
     }
 
@@ -154,6 +152,10 @@ public class BaseActivity extends AppCompatActivity {
             startActivity(
                     new Intent(this, TimerActivity.class)
             );
+        } else if (id == R.id.chatModeButton) {
+            viewPager2.setCurrentItem(1);
+        } else if (id == android.R.id.home) {
+            viewPager2.setCurrentItem(0);
         }
         return super.onOptionsItemSelected(item);
     }

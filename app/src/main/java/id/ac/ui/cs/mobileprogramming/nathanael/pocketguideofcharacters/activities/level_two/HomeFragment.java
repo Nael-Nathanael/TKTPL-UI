@@ -2,10 +2,13 @@ package id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.activiti
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -17,6 +20,7 @@ import com.google.android.material.tabs.TabLayoutMediator;
 import java.util.Objects;
 
 import id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.R;
+import id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.activities.LevelTwoPageTransformer;
 import id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.activities.NavigationViewModel;
 
 /**
@@ -37,6 +41,7 @@ public class HomeFragment extends Fragment {
         viewPager2 = root.findViewById(R.id.home_pager);
         viewPager2.setAdapter(new HomePagerAdapter(requireActivity()));
         viewPager2.setUserInputEnabled(false);
+        viewPager2.setPageTransformer(new LevelTwoPageTransformer());
 
         TabLayout tabLayout = root.findViewById(R.id.botton_tab_navigation);
         TabLayoutMediator tabLayoutMediator = new TabLayoutMediator(
@@ -79,13 +84,14 @@ public class HomeFragment extends Fragment {
         });
 
         tabLayoutMediator.attach();
-
         return root;
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
+
         NavigationViewModel navigationViewModel = new ViewModelProvider(requireActivity()).get(NavigationViewModel.class);
         navigationViewModel.getActive().setValue(viewPager2.getCurrentItem() != 1);
 
