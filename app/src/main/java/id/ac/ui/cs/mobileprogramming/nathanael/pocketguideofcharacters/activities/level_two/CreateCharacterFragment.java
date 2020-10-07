@@ -1,4 +1,4 @@
-package id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.activities.ui.create;
+package id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.activities.level_two;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -11,7 +11,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -64,7 +68,12 @@ public class CreateCharacterFragment extends Fragment {
             InputMethodManager imm = (InputMethodManager) requireContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(root.getWindowToken(), 0);
 
-            requireActivity().findViewById(R.id.navigation_home).performClick();
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setTitle("Create");
     }
 }

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.activities.ui.home.HomeFragment" >
+    tools:context="id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.activities.level_two.CardListFragment" >
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewCard"

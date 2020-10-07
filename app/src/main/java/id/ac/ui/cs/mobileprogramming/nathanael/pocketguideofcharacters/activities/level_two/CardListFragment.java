@@ -1,4 +1,4 @@
-package id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.activities.ui.home;
+package id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.activities.level_two;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,6 +21,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.R;
 import id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.adapter.LandingRecyclerViewAdapter;
@@ -31,7 +34,7 @@ import id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.service.F
  *
  * @author Nathanael
  */
-public class HomeFragment extends Fragment {
+public class CardListFragment extends Fragment {
 
     /**
      * Firebase real time database connection.
@@ -161,5 +164,11 @@ public class HomeFragment extends Fragment {
         int focus = displayMetrics.widthPixels;
         focus = (int) (focus / context.getResources().getDisplayMetrics().density);
         return focus / 160;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setTitle("Home");
     }
 }

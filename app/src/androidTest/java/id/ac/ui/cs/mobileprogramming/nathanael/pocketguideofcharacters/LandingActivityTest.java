@@ -12,7 +12,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.activities.LandingActivity;
+import id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.activities.level_two.HomeFragment;
 
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
@@ -23,7 +23,7 @@ import static org.junit.Assert.assertNotNull;
 public class LandingActivityTest {
 
     @Rule
-    public ActivityScenarioRule<LandingActivity> activityScenarioRule = new ActivityScenarioRule<>(LandingActivity.class);
+    public ActivityScenarioRule<HomeFragment> activityScenarioRule = new ActivityScenarioRule<>(HomeFragment.class);
 
     @Test
     public void useAppContext() {
@@ -34,9 +34,9 @@ public class LandingActivityTest {
 
     @Test
     public void whenLaunchedShouldShowRecyclerViewLayout() {
-        activityScenarioRule.getScenario().onActivity(new ActivityScenario.ActivityAction<LandingActivity>() {
+        activityScenarioRule.getScenario().onActivity(new ActivityScenario.ActivityAction<HomeFragment>() {
             @Override
-            public void perform(LandingActivity activity) {
+            public void perform(HomeFragment activity) {
                 View view = activity.findViewById(R.id.recyclerViewCard);
                 assertNotNull(view);
             }

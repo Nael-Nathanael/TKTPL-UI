@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.activities.ui.home.HomeFragment"
+        android:name="id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.activities.level_two.CardListFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" />
 

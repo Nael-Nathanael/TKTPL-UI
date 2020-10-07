@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activities.LandingActivity"
+            android:name=".activities.level_one.BaseActivity"
             android:label="@string/title_activity_bottom_navigation" />
         <activity
             android:name=".activities.TimerActivity"

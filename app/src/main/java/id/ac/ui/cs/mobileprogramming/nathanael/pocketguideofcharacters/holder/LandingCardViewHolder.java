@@ -25,6 +25,6 @@ public class LandingCardViewHolder extends RecyclerView.ViewHolder {
 
     public LandingCardViewHolder(@NonNull View itemView) {
         super(itemView);
-        ButterKnife.bind(itemView);
+        ButterKnife.bind(this, itemView);
     }
 }

@@ -6,7 +6,7 @@ import android.os.Handler;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.activities.LandingActivity;
+import id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.activities.level_one.BaseActivity;
 
 /**
  * Primary Activity only to create splash screen and redirect to landing activity
@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 Intent i = new Intent(MainActivity.this,
-                        LandingActivity.class);
+                        BaseActivity.class);
                 startActivity(i);
                 finish();
             }
