@@ -13,11 +13,10 @@ public class FirebaseConnectorService {
         mDatabase = FirebaseDatabase.getInstance().getReference();
     }
 
-    public void createCharacter(String name, int age) {
+    public void createCharacter(String name, int age, String image_url) {
         String newId = mDatabase.child("characters").push().getKey();
 
-        TheCharacter theCharacter = new TheCharacter(newId, name, age);
+        TheCharacter theCharacter = new TheCharacter(newId, name, age, image_url);
         mDatabase.child("characters").child(newId).setValue(theCharacter);
     }
-
 }

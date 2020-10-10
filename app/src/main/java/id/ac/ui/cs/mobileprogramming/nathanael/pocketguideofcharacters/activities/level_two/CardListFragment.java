@@ -149,7 +149,7 @@ public class CardListFragment extends Fragment {
             recyclerView.addItemDecoration(
                     new GridSpacingItemDecoration(
                             spanCount,
-                            Math.round(12 * context.getResources().getDisplayMetrics().density),
+                            Math.round(10 * context.getResources().getDisplayMetrics().density),
                             true
                     )
             );
@@ -165,7 +165,7 @@ public class CardListFragment extends Fragment {
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
         int focus = displayMetrics.widthPixels;
         focus = (int) (focus / context.getResources().getDisplayMetrics().density);
-        return focus / 160;
+        return focus / 300;
     }
 
     @Override

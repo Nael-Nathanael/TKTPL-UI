@@ -50,7 +50,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         signInButton.setColorScheme(SignInButton.COLOR_DARK);
 
         findViewById(R.id.sign_in_button).setOnClickListener(this);
-
     }
 
     @Override

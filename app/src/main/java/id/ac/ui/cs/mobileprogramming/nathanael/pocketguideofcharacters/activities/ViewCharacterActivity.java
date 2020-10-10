@@ -13,10 +13,14 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,6 +36,7 @@ public class ViewCharacterActivity extends AppCompatActivity {
     String extraId;
     View.OnClickListener editButtonClickListener;
     View.OnClickListener deleteButtonClickListener;
+    FirebaseStorage storage;
 
     @BindView(R2.id.editButton)
     Button editButton;
@@ -52,6 +57,7 @@ public class ViewCharacterActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         firebaseConnectorService = new FirebaseConnectorService();
+        storage = FirebaseStorage.getInstance();
         extraId = getIntent().getStringExtra("id");
 
         rerenderCharacterView();
@@ -105,38 +111,35 @@ public class ViewCharacterActivity extends AppCompatActivity {
             };
             editButton.setOnClickListener(editButtonClickListener);
 
-            deleteButtonClickListener = new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    new MaterialAlertDialogBuilder(ViewCharacterActivity.this, R.style.DeleteDialogTheme)
-                            .setTitle("Confirm Delete " + mainCharacter.name)
-                            .setMessage("After deletion, " + mainCharacter.name + " will be lost forever")
-                            .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    firebaseConnectorService.mDatabase.child("characters").child(mainCharacter.id).addListenerForSingleValueEvent(new ValueEventListener() {
-                                        @Override
-                                        public void onDataChange(DataSnapshot dataSnapshot) {
-                                            dataSnapshot.getRef().removeValue();
-                                            finish();
-                                            Toast.makeText(ViewCharacterActivity.this, "Character Deletion Complete", Toast.LENGTH_SHORT).show();
-                                        }
+            deleteButtonClickListener = v -> new MaterialAlertDialogBuilder(ViewCharacterActivity.this, R.style.DeleteDialogTheme)
+                    .setTitle("Confirm Delete " + mainCharacter.name)
+                    .setMessage("After deletion, " + mainCharacter.name + " will be lost forever")
+                    .setPositiveButton("Delete", (dialogInterface, i) -> firebaseConnectorService.mDatabase.child("characters").child(mainCharacter.id).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            StorageReference photoRef = storage.getReferenceFromUrl(mainCharacter.image);
+                            photoRef.delete().addOnSuccessListener(aVoid -> {
+                                // File deleted successfully
+                                dataSnapshot.getRef().removeValue();
+                                finish();
+                                Toast.makeText(ViewCharacterActivity.this, "Character Deletion Complete", Toast.LENGTH_SHORT).show();
+                            }).addOnFailureListener(exception -> {
+                                // Uh-oh, an error occurred!
+                                Toast.makeText(ViewCharacterActivity.this, "Error deleting image", Toast.LENGTH_SHORT).show();
+                            });
+                        }
 
-                                        @Override
-                                        public void onCancelled(DatabaseError databaseError) {
-                                        }
-                                    });
-                                }
-                            })
-                            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                        }
+                    }))
+                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
 
-                                }
-                            })
-                            .show();
-                }
-            };
+                        }
+                    })
+                    .show();
             deleteButton.setOnClickListener(deleteButtonClickListener);
         }
     }
