@@ -12,7 +12,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.activities.level_two.HomeFragment;
+import id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.views.home.HomeFragment;
 
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;

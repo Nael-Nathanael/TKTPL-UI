@@ -10,9 +10,9 @@ import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
 import id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.R;
-import id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.activities.TimerActivity;
+import id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.views.timer.TimerActivity;
 
-import static id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.application.App.CHANNEL_ID;
+import static id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.App.CHANNEL_ID;
 
 public class ChronoService extends Service {
     @Nullable
