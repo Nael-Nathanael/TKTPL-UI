@@ -82,9 +82,8 @@ public class CreateCharacterFragment extends Fragment {
         firebaseConnectorService = new FirebaseConnectorService();
         ButterKnife.bind(this, root);
 
-        GlideApp.with(this).load(
-                getResources().getIdentifier("icon", "drawable", requireActivity().getPackageName())
-        ).into(image_input);
+        Uri iconuri = Uri.parse("android.resource://" + requireActivity().getPackageName() + "/" + R.raw.icon);
+        GlideApp.with(this).load(iconuri).into(image_input);
 
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
@@ -204,9 +203,8 @@ public class CreateCharacterFragment extends Fragment {
         nameField.setText("");
         ageField.setText("");
         haveImage = false;
-        GlideApp.with(this).load(
-                getResources().getIdentifier("icon", "raw", requireActivity().getPackageName())
-        ).into(image_input);
+        Uri iconuri = Uri.parse("android.resource://" + requireActivity().getPackageName() + "/" + R.raw.icon);
+        GlideApp.with(this).load(iconuri).into(image_input);
         image_hint.setVisibility(View.VISIBLE);
     }
 
