@@ -1,7 +1,6 @@
 package id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.views.cardlist;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,9 +25,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.R;
 import id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.R2;
-import id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.utility.dependency_injectors.GlideApp;
-import id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.views.preview.PreviewCharacterActivity;
 import id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.models.TheCharacter;
+import id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.utility.dependency_injectors.GlideApp;
 
 public class CardListViewAdapter extends RecyclerView.Adapter<CardListViewAdapter.CardListViewHolder> {
 
@@ -68,11 +66,7 @@ public class CardListViewAdapter extends RecyclerView.Adapter<CardListViewAdapte
                 })
                 .into(holder.image_placement);
         holder.name_placement.setText(characterList.get(position).name);
-        holder.the_card.setOnClickListener(v -> {
-            Intent intent = new Intent(context, PreviewCharacterActivity.class);
-            intent.putExtra("id", characterList.get(position).id);
-            context.startActivity(intent);
-        });
+        holder.character_id.setText(characterList.get(position).id);
     }
 
     @Override
@@ -84,6 +78,9 @@ public class CardListViewAdapter extends RecyclerView.Adapter<CardListViewAdapte
 
         @BindView(R2.id.card_image)
         public ImageView image_placement;
+
+        @BindView(R2.id.character_id)
+        public TextView character_id;
 
         @BindView(R2.id.card_name)
         public TextView name_placement;

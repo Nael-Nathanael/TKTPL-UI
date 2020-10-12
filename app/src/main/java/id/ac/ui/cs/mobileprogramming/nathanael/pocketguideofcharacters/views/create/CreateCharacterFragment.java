@@ -88,19 +88,9 @@ public class CreateCharacterFragment extends Fragment {
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
 
-        createButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                createButtonClick();
-            }
-        });
+        createButton.setOnClickListener(v -> createButtonClick());
 
-        image_cell.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SelectImage();
-            }
-        });
+        image_cell.setOnClickListener(v -> SelectImage());
 
         setHasOptionsMenu(true);
 

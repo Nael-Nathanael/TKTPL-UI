@@ -79,6 +79,12 @@
                     android:textColor="#FFFFFF"
                     android:textStyle="bold" />
 
+                <TextView
+                    android:id="@+id/character_id"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone" />
+
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>

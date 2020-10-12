@@ -21,7 +21,6 @@
             android:name=".views.timer.TimerActivity"
             android:theme="@style/Theme.MaterialComponents.Light.NoActionBar" />
         <activity android:name=".views.update.UpdateCharacterActivity" />
-        <activity android:name=".views.preview.PreviewCharacterActivity" />
         <activity
             android:name=".MainActivity"
             android:theme="@style/Theme.MaterialComponents.Light.NoActionBar">

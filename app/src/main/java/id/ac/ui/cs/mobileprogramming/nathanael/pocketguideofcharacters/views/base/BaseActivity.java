@@ -8,6 +8,7 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -56,7 +57,6 @@ public class BaseActivity extends AppCompatActivity {
         final Observer<Boolean> stateObserver = new Observer<Boolean>() {
             @Override
             public void onChanged(@Nullable final Boolean active) {
-                Log.d("NaelsObserver", String.valueOf(active));
                 viewPager2.setUserInputEnabled(active);
             }
         };
@@ -85,6 +85,8 @@ public class BaseActivity extends AppCompatActivity {
 
                 // do not return default back, it will break the home fragment.
                 return false;
+            } else if (findViewById(R.id.preview_frame_layout).getVisibility() != View.GONE) {
+                findViewById(R.id.preview_frame_layout).setVisibility(View.GONE);
             } else if (!backPressedToExitOnce) {
 
                 // require user to press back button twice in 2000ms to exit;

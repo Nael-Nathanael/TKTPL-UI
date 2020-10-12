@@ -1,11 +1,13 @@
 package id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.views.cardlist;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -24,9 +26,12 @@ import java.util.List;
 import java.util.Objects;
 
 import id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.R;
-import id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.viewmodels.NavigationViewModel;
 import id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.models.TheCharacter;
+import id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.utility.RecyclerItemClickListener;
 import id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.utility.firebase.FirebaseConnectorService;
+import id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.viewmodels.NavigationViewModel;
+import id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.viewmodels.SelectedCharacterIdViewModel;
+import id.ac.ui.cs.mobileprogramming.nathanael.pocketguideofcharacters.views.preview.PreviewCharacterFragmentDialog;
 
 /**
  * Primary layout to access, edit, delete characters
@@ -55,6 +60,12 @@ public class CardListFragment extends Fragment {
      */
     Context context;
 
+    RecyclerView recyclerView;
+
+    SelectedCharacterIdViewModel selectedCharacterIdViewModel;
+
+    String first_id;
+
     /**
      * Called when view create, inflate root / base layout for this fragment.
      *
@@ -69,6 +80,12 @@ public class CardListFragment extends Fragment {
             Bundle savedInstanceState
     ) {
         root = inflater.inflate(R.layout.fragment_home, container, false);
+
+        recyclerView = root.findViewById(R.id.recyclerViewCard);
+        setRecyclerItemListener();
+
+        selectedCharacterIdViewModel = new ViewModelProvider(requireActivity()).get(SelectedCharacterIdViewModel.class);
+
         return root;
     }
 
@@ -87,6 +104,24 @@ public class CardListFragment extends Fragment {
         fetchFromDatabase();
     }
 
+    private void setRecyclerItemListener() {
+        recyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListener(
+                        context,
+                        (view, position) -> {
+                            TextView idView = view.findViewById(R.id.the_card).findViewById(R.id.character_id);
+                            String id = (String) idView.getText();
+                            selectedCharacterIdViewModel.getSelected_id().setValue(id);
+
+                            if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+                                PreviewCharacterFragmentDialog previewCharacterFragment = new PreviewCharacterFragmentDialog(getActivity());
+                                previewCharacterFragment.show(requireActivity().getSupportFragmentManager(), "Preview");
+                            }
+                        }
+                )
+        );
+    }
+
     // fetch from firebase real time database
     private void fetchFromDatabase() {
         firebaseConnectorService = new FirebaseConnectorService();
@@ -101,10 +136,14 @@ public class CardListFragment extends Fragment {
             public void onDataChange(@NonNull final DataSnapshot snapshot) {
                 // if data changed, refetch all characters
                 characters = new ArrayList<>();
+
                 for (DataSnapshot postSnapshot : snapshot.getChildren()) {
-                    characters.add(
-                            postSnapshot.getValue(TheCharacter.class)
-                    );
+                    TheCharacter newChara = postSnapshot.getValue(TheCharacter.class);
+                    if (characters.size() == 0) {
+                        assert newChara != null;
+                        first_id = newChara.id;
+                    }
+                    characters.add(newChara);
                 }
 
                 // then rerender the recycler layout
@@ -135,8 +174,6 @@ public class CardListFragment extends Fragment {
                 ((ViewGroup) loadingbar.getParent()).removeView(loadingbar);
             }
 
-            RecyclerView recyclerView = root.findViewById(R.id.recyclerViewCard);
-
             CardListViewAdapter viewAdapter = new CardListViewAdapter(getContext(), characters);
             int spanCount = getSpanCount();
             recyclerView.setAdapter(viewAdapter);
@@ -150,6 +187,13 @@ public class CardListFragment extends Fragment {
                             true
                     )
             );
+            if (characters.size() > 0) {
+                selectedCharacterIdViewModel.getSelected_id().setValue(first_id);
+                View preview_right_fragment = root.findViewById(R.id.preview_right_fragment);
+                if (preview_right_fragment != null) {
+                    preview_right_fragment.setVisibility(View.VISIBLE);
+                }
+            }
         }
     }
 
