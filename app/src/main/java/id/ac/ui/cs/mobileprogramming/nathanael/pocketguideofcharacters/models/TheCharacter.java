@@ -5,16 +5,18 @@ import com.google.firebase.database.IgnoreExtraProperties;
 @IgnoreExtraProperties
 public class TheCharacter {
 
-    public String id = "0";
-    public String name = "placeholder";
-    public int age = 77;
+    public String id;
+    public String name;
+    public int age;
+    public String image;
 
     public TheCharacter() {
     }
 
-    public TheCharacter(String id, String name, int age) {
-        this.id = id;
+    public TheCharacter(String newId, String name, int age, String image_url) {
+        this.id = newId;
         this.name = name;
         this.age = age;
+        this.image = image_url;
     }
 }
