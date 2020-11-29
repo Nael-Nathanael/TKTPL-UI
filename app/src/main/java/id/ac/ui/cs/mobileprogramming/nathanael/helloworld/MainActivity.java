@@ -17,6 +17,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.database.FirebaseDatabase;
 
 import id.ac.ui.cs.mobileprogramming.nathanael.helloworld.receiver.WifiReceiver;
 
@@ -27,14 +28,18 @@ public class MainActivity extends AppCompatActivity {
     private WifiManager wifiManager;
     private final int MY_PERMISSIONS_ACCESS_COARSE_LOCATION = 1;
     private final int MY_PERMISSIONS_ACCESS_FINE_LOCATION = 2;
+    FirebaseDatabase database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        database = FirebaseDatabase.getInstance();
+
         wifiList = findViewById(R.id.wifiList);
         FloatingActionButton buttonScan = findViewById(R.id.scanBtn);
+        FloatingActionButton buttonSend = findViewById(R.id.sendButton);
 
         wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         if (!wifiManager.isWifiEnabled()) {
@@ -45,6 +50,23 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 getWifi();
+            }
+        });
+
+        buttonSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (receiverWifi == null) {
+                    Toast.makeText(MainActivity.this, "Please scan the wifi first", Toast.LENGTH_SHORT).show();
+                } else if (receiverWifi.deviceList.size() == 0) {
+                    Toast.makeText(MainActivity.this, "We can't send nothingness to the server", Toast.LENGTH_SHORT).show();
+                } else {
+                    for (String wifi_name : receiverWifi.deviceList) {
+                        String newId = database.getReference().child("wifilist").push().getKey();
+                        database.getReference().child("wifilist").child(newId).setValue(wifi_name);
+                    }
+                    Toast.makeText(MainActivity.this, "Your wifi list has been sent!", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
@@ -65,9 +87,7 @@ public class MainActivity extends AppCompatActivity {
             if (
                     ContextCompat.checkSelfPermission(
                             MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION
-                    )
-                            !=
-                            PackageManager.PERMISSION_GRANTED
+                    ) != PackageManager.PERMISSION_GRANTED
             ) {
 
                 ActivityCompat.requestPermissions(
